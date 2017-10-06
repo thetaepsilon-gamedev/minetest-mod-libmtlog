@@ -8,7 +8,11 @@ end
 -- maybe even a currentmod.dofile("relative-file.lua"), though that's not less chars to type...
 local modpath = minetest.get_modpath(minetest.get_current_modname())
 
--- constructor for objects that other mods will actually obtain.
+local parts = {
+	"external-dependencies.lua",
+}
+for _, part in ipairs(parts) do dofile(modpath.."/"..part) end
+
 local interface = dofile(modpath.."/mod-interface.lua")
 modns.register("com.github.thetaepsilon.minetest.libmtlog", interface)
 
