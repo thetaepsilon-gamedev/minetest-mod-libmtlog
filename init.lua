@@ -8,8 +8,14 @@ end
 -- maybe even a currentmod.dofile("relative-file.lua"), though that's not less chars to type...
 local modpath = minetest.get_modpath(minetest.get_current_modname())
 
+-- tables used for shared constructors
+_log.new = {}
+_log.new.appender = {}
+
 local parts = {
 	"external-dependencies.lua",
+	"exploder.lua",
+	"appender-linewise.lua",
 }
 for _, part in ipairs(parts) do dofile(modpath.."/"..part) end
 
