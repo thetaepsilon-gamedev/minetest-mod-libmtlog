@@ -5,6 +5,7 @@
 -- call ancestor_logger.forward() to retrieve an appropriate appender closure function.
 
 local mkset = _log.mkset
+local mkexploder = _log.mkfnexploder
 
 local construct = function(opts)
 	local typecheck = type(opts)
@@ -15,6 +16,8 @@ local construct = function(opts)
 	else
 		error("options argument for logger constructor expected to be a table or nil, got "..typecheck)
 	end
+
+	local check = mkexploder("new.logger")
 
 	local name = opts.name
 	if type(name) ~= "string" then name = "" end
@@ -28,9 +31,7 @@ local construct = function(opts)
 	return {
 		name = function() return name end
 		appender_add = function(appender)
-			if type(appender) ~= "function" then
-				error("appender must be a function!")
-			end
+			check(appender, "log appender")
 			return self.appenders.add(appender)
 		end,
 		-- oh, I love closures...
@@ -40,4 +41,4 @@ local construct = function(opts)
 	}
 end
 
-return construct
+_log.new.logger = construct
