@@ -2,7 +2,7 @@
 -- might be moved to libmthelpers.
 _log.mkfnexploder = function(callername)
 	return function(val, label)
-		if type(val) ~= string then
+		if type(val) ~= "function" then
 			error(callername..": "..label.." expected to be a function, got "..tostring(val))
 		end
 	end
