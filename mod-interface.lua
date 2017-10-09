@@ -2,10 +2,12 @@
 local internallog = _log.internal
 local testtable = {1, 2}
 local shallowcopy = _log.shallowcopy
+local new = _log.new
 
 return function()
 	local modname = tostring(minetest.get_current_modname())
 	internallog("setting up log access interface for "..modname)
+	--internallog(tostring(new.logger))
 
 	return {
 		test = function()
@@ -13,8 +15,8 @@ return function()
 		end,
 		testtable = shallowcopy(testtable),
 		new = {
-			logger = _log.new.logger,
-			appender = shallowcopy(_log.new.appender)
+			logger = new.logger,
+			appender = shallowcopy(new.appender)
 		},
 	}
 end

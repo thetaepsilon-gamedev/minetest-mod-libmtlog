@@ -16,6 +16,7 @@ local parts = {
 	"external-dependencies.lua",
 	"exploder.lua",
 	"appender-linewise.lua",
+	"logger.lua",
 }
 for _, part in ipairs(parts) do dofile(modpath.."/"..part) end
 

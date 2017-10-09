@@ -1,0 +1,7 @@
+-- examples of the types that are used in libmtlog
+
+-- log event
+logevent = {
+	eventlabel="eventname"
+	category=logger.type.watchpoint
+}
