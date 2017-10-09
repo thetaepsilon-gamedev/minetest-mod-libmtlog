@@ -29,7 +29,7 @@ local construct = function(opts)
 		for appender in self.appenders.iterator() do appender(event) end
 	end
 	return {
-		name = function() return name end
+		name = function() return name end,
 		appender_add = function(appender)
 			check(appender, "log appender")
 			return self.appenders.add(appender)
