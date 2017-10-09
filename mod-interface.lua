@@ -11,6 +11,10 @@ return function()
 		test = function()
 			internallog("hi! from "..modname)
 		end,
-		testtable = shallowcopy(testtable)
+		testtable = shallowcopy(testtable),
+		new = {
+			logger = _log.new.logger,
+			appender = shallowcopy(_log.new.appender)
+		},
 	}
 end
