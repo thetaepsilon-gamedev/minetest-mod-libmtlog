@@ -11,8 +11,8 @@ local check = _log.mkfnexploder("new.appender.text")
 _log.new.appender.text = function(formatter, printer)
 	check(formatter)
 	check(printer)
-	return function(logevent)
+	return function(caller, logevent)
 		-- CHAAAAIIINING AWAAAAAAY
-		printer(tostring(formatter(logevent)))
+		printer(tostring(formatter(caller, logevent)))
 	end
 end

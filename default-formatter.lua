@@ -4,7 +4,7 @@
 -- note that this is a table, however it is noted that this can become somewhat cumbersome.
 -- the loggers returned to mods have additional factory methods which can help with the boilerplate.
 
-_log.default.formatter = function(logevent)
+_log.default.formatter = function(caller, logevent)
 	-- the event type/name field - always expected to be present.
 	-- this should be a machine-parseable identifer as opposed to a human-readable statement.
 	-- translators for the message types should be separate from the actual logging statements,

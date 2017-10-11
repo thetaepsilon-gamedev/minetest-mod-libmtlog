@@ -19,6 +19,7 @@ local copy_caller_metadata = function(origin)
 end
 
 local construct = function(opts)
+	local caller = {}
 	local typecheck = type(opts)
 	if typecheck == "table" then
 		-- this is fine
@@ -37,7 +38,7 @@ local construct = function(opts)
 		appenders = mkset()
 	}
 	local dolog = function(event)
-		for appender in self.appenders.iterator() do appender(event) end
+		for appender in self.appenders.iterator() do appender(caller, event) end
 	end
 	return {
 		name = function() return name end,
