@@ -7,6 +7,17 @@
 local mkset = _log.mkset
 local mkexploder = _log.mkfnexploder
 
+-- copies logger origin metadata for internal use.
+-- also used to copy metadata between levels non-destructively while allowing it to remain a table.
+local copy_caller_metadata = function(origin)
+	local result = {}
+
+	if type(origin) ~= "table" then origin = {} end
+	result.name = tostring(origin.name)
+
+	return result
+end
+
 local construct = function(opts)
 	local typecheck = type(opts)
 	if typecheck == "table" then
