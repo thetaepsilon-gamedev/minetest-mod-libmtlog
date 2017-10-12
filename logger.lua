@@ -2,7 +2,6 @@
 -- acts as a multiplexer to all attached appenders.
 -- events will be forwarded to each in turn.
 -- may itself also act as an appender for another logger.
--- call ancestor_logger.forward() to retrieve an appropriate appender closure function.
 
 local mkset = _log.mkset
 local mkexploder = _log.mkfnexploder
@@ -49,7 +48,6 @@ local construct = function(opts)
 		-- oh, I love closures...
 		appender_remove = self.appenders.remove,
 		log = dolog,
-		forward = function() return dolog end
 	}
 end
 
