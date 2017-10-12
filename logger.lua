@@ -22,10 +22,8 @@ local construct = function(opts)
 	local typecheck = type(opts)
 	if typecheck == "table" then
 		-- this is fine
-	elseif opts == nil then
-		opts = {}
 	else
-		error("options argument for logger constructor expected to be a table or nil, got "..typecheck)
+		error("options argument for logger constructor expected to be a table, got "..typecheck)
 	end
 
 	local check = mkexploder("new.logger")
