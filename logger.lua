@@ -6,15 +6,14 @@
 local mkset = _log.mkset
 local mkexploder = _log.mkfnexploder
 
--- copies logger origin metadata for internal use.
--- also used to copy metadata between levels non-destructively while allowing it to remain a table.
-local copy_caller_metadata = function(origin)
-	local result = {}
+local childsep = "."
 
-	if type(origin) ~= "table" then origin = {} end
-	result.name = tostring(origin.name)
-
-	return result
+local validatename = function(name)
+	local prefix = "libmtlog.new.logger() "
+	if type(name) ~= "string" then
+		error(prefix.."name must be a string!")
+	end
+	-- TODO: maybe make this restrict the charset at some point.
 end
 
 local construct = function(opts)
@@ -29,12 +28,14 @@ local construct = function(opts)
 	local check = mkexploder("new.logger")
 
 	local name = opts.name
-	if type(name) ~= "string" then name = "" end
+	validatename(name)
+	caller.name = name
+
 	-- no private variable access for you!
 	local self = {
 		appenders = mkset()
 	}
-	local dolog = function(event)
+	local dolog = function(caller, event)
 		for appender in self.appenders.iterator() do appender(caller, event) end
 	end
 	local interface = {
@@ -46,7 +47,15 @@ local construct = function(opts)
 		-- oh, I love closures...
 		-- and being able to pass functions as values when they closure over themselves.
 		appender_remove = self.appenders.remove,
-		log = dolog,
+		log = function(event) dolog(caller, event) end,
+		newchild = function(suffix)
+			local childname = name..childsep..suffix
+			local child = construct({name=childname})
+			-- child will now handle calling with the complete name.
+			-- so allow it direct access to dolog() as an appender.
+			child.appender_add(dolog)
+			return child
+		end
 	}
 	return interface
 end
