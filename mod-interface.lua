@@ -3,6 +3,7 @@ local internallog = _log.internal
 local testtable = {1, 2}
 local shallowcopy = _log.shallowcopy
 local new = _log.new
+local defaults = _log.default
 
 return function()
 	local modname = tostring(minetest.get_current_modname())
@@ -18,5 +19,8 @@ return function()
 			logger = new.logger,
 			appender = shallowcopy(new.appender)
 		},
+		default = {
+			formatter = defaults.formatter
+		}
 	}
 end
