@@ -39,16 +39,18 @@ local construct = function(opts)
 	local dolog = function(event)
 		for appender in self.appenders.iterator() do appender(caller, event) end
 	end
-	return {
+	local interface = {
 		name = function() return name end,
 		appender_add = function(appender)
 			check(appender, "log appender")
 			return self.appenders.add(appender)
 		end,
 		-- oh, I love closures...
+		-- and being able to pass functions as values when they closure over themselves.
 		appender_remove = self.appenders.remove,
 		log = dolog,
 	}
+	return interface
 end
 
 _log.new.logger = construct
