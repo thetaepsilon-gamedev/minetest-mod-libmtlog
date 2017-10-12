@@ -5,13 +5,19 @@
 -- the loggers returned to mods have additional factory methods which can help with the boilerplate.
 
 _log.default.formatter = function(caller, logevent)
+	local result = ""
+	-- caller's name
+	-- note that caller metadata is generally constructed by loggers,
+	-- seldom by mod code.
+	result = result.."["..caller.name.."] "
+
 	-- the event type/name field - always expected to be present.
 	-- this should be a machine-parseable identifer as opposed to a human-readable statement.
 	-- translators for the message types should be separate from the actual logging statements,
 	-- which gives a good-practice basis to easily swap out the translator to implement i18n.
 	-- ex. name should be something like "com.example.mymod.somethingregistered",
 	-- as opposed to a hard-coded "registered something to core".
-	local result = logevent.name
+	result = result..logevent.name
 
 	local sep = " "
 	local kvsep = "="
