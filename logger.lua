@@ -16,7 +16,8 @@ local validatename = function(name)
 	-- TODO: maybe make this restrict the charset at some point.
 end
 
-local construct = function(opts)
+local construct
+construct = function(opts)
 	local caller = {}
 	local typecheck = type(opts)
 	if typecheck == "table" then
