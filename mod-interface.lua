@@ -36,5 +36,11 @@ return function()
 			callername = callername..":log"
 			return rootlogger.newchild(callername)
 		end,
+		-- allow mods to install appenders to the root logger to monitor things.
+		-- this is mainly intended to allow server admins to be registered
+		root_appender = {
+			add = rootlogger.appender_add,
+			remove = rootlogger.appender_remove
+		}
 	}
 end
