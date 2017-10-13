@@ -16,6 +16,8 @@ local validatename = function(name)
 	-- TODO: maybe make this restrict the charset at some point.
 end
 
+local checkappender = mkexploder("logger.appender_add()")
+
 local construct
 construct = function(opts)
 	local caller = {}
@@ -25,8 +27,6 @@ construct = function(opts)
 	else
 		error("options argument for logger constructor expected to be a table, got "..typecheck)
 	end
-
-	local check = mkexploder("new.logger")
 
 	local name = opts.name
 	validatename(name)
@@ -42,7 +42,7 @@ construct = function(opts)
 	local interface = {
 		name = function() return name end,
 		appender_add = function(appender)
-			check(appender, "log appender")
+			checkappender(appender, "log appender")
 			return self.appenders.add(appender)
 		end,
 		-- oh, I love closures...
