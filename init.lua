@@ -20,6 +20,7 @@ local parts = {
 	"appender-linewise.lua",
 	"logger.lua",
 	"default-formatter.lua",
+	"root-logger.lua",
 }
 for _, part in ipairs(parts) do dofile(modpath.."/"..part) end
 
