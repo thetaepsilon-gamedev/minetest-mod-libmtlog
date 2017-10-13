@@ -1,26 +1,40 @@
--- constructor called by modns, and therefore called when another mod is "current"
 local internallog = _log.internal
 local testtable = {1, 2}
 local shallowcopy = _log.shallowcopy
 local new = _log.new
 local defaults = _log.default
+local rootlogger = _log.root
+
+local label_getlogger = "libmtlog interface.getlogger() "
+local msg_getlogger_badname = label_getlogger.."no valid name passed and not running at mod initialisation time, cannot generate a caller name"
 
 return function()
-	local modname = tostring(minetest.get_current_modname())
-	internallog("setting up log access interface for "..modname)
+	local modname = minetest.get_current_modname()
+	local modname_str = tostring(modname)
+	internallog("setting up log access interface for "..modname_str)
 	--internallog(tostring(new.logger))
 
 	return {
-		test = function()
-			internallog("hi! from "..modname)
-		end,
-		testtable = shallowcopy(testtable),
 		new = {
 			logger = new.logger,
 			appender = shallowcopy(new.appender)
 		},
 		default = {
 			formatter = defaults.formatter
-		}
+		},
+		getlogger = function(callername)
+			-- this will be running in mod context,
+			-- so we can look at minetest.get_current_modname().
+			-- however, it is perfectly concieviable that a mod call the constructor at runtime.
+			-- so in that case we must insist they provide a name.
+			if type(callername) ~= "string" then
+				if modname == nil then
+					error(msg_getlogger_badname)
+				end
+				callername = "mod."..modname
+			end
+			callername = callername..":log"
+			return rootlogger.newchild(callername)
+		end,
 	}
 end
