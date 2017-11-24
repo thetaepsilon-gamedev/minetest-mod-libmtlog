@@ -17,7 +17,7 @@ _log.default.formatter = function(caller, logevent)
 	-- which gives a good-practice basis to easily swap out the translator to implement i18n.
 	-- ex. name should be something like "com.example.mymod.somethingregistered",
 	-- as opposed to a hard-coded "registered something to core".
-	result = result..logevent.name
+	result = result..logevent.n
 
 	local sep = " "
 	local kvsep = "="
